@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- ###############对象创建############### -->
+	
+	<!-- 1. 默认无参数构造器 -->
+	<bean id="user1" class="com.wen.bbb.User"></bean>
+	
+	<!-- 2. 带参数构造器 -->
+	<bean id="user2" class="com.wen.bbb.User">
+		<constructor-arg index="0" type="int" value="100"></constructor-arg>
+			<!-- 引用类型必须写全名 -->
+		<constructor-arg index="1" type="java.lang.String" value="Jack"></constructor-arg>
+	</bean>
+	
+	<!-- 定义一个字符串，值是"Jack" ;  String s = new String("jack")-->
+	<bean id="str" class="java.lang.String">
+		<constructor-arg value="Jack"></constructor-arg>
+	</bean>
+	<bean id="user3" class="com.wen.bbb.User">
+		<constructor-arg index="0" type="int" value="100"></constructor-arg>
+		<constructor-arg index="1" type="java.lang.String" ref="str"></constructor-arg>
+	</bean>
+	
+	<!-- 3. 工厂类创建对象 -->
+	<!-- # 3.1 工厂类，实例方法 -->
+	<!-- 先创建工厂 -->
+	<bean id="factory" class="com.wen.bbb.ObjectFactory"></bean>
+	<!-- 再创建user对象，用factory方的实例方法 -->
+	<bean id="user4" factory-bean="factory" factory-method="getInstance"></bean>
+	
+	<!-- # 3.2 工厂类： 静态方法 -->
+	<!-- 
+		class 指定的就是工厂类型
+		factory-method  一定是工厂里面的“静态方法”
+	 -->
+	<bean id="user5" class="com.wen.bbb.ObjectFactory" factory-method="getStaticInstance"></bean>
+</beans>
